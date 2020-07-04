@@ -1,8 +1,3 @@
-// var getContacts = function(){
-//     $.post(document.location, {'getContacts': true}, function(data){
-//         viewContacts(JSON.parse(data))
-//     });
-// }
 var getContacts = function(){
     $.post(document.location, {'type': 'getContacts'}, function(data){
         viewContacts(JSON.parse(data))
@@ -42,12 +37,6 @@ $(document).ready(function(){
     });
 });
 
-// var yandexSearch = function(value){
-//     $.post(document.location, {'yandexSearch': true, 'value': value}, function(data){
-//         $('body').html( data );
-//     });
-// }
-
 var yandexSearch = function(value){
     $.post(document.location, {'type': 'yandexSearch', 'value': value}, function(data){
         //data=JSON.parse(data);
@@ -66,37 +55,6 @@ var yandexSearch = function(value){
         newWindow.document.close();
     });
 }
-
-// var checkNewMessages = function(){
-//     if(g_user){
-//         $.post(document.location, {'checkNewMessages': true, 'userLogin': g_user, 'date': g_lastDate, 'limit': 20}, function(data){
-//             if(data!='no updates'){
-//                 data=JSON.parse(data);
-//                 g_lastDate=data[0]['date'];
-//                 data = data.reverse();
-//                 let messages = $('.user-messages');
-//                 let scroll=messages.scrollTop();
-//                 data.forEach(message => {
-//                     let elem=$("<div>",{
-//                         class: 'message',
-//                     });
-//                     elem.append($("<div>", {
-//                         class: 'message-content',
-//                         text: message['content']
-//                     }));
-//                     elem.append($("<div>", {
-//                         class: 'user',
-//                         text: message['fromLogin'] == g_user ? message['fromLogin'] : 'you'
-//                     }));
-//                     if(message['fromLogin']!=g_user)
-//                         elem.css('margin-left', 'auto');
-//                     messages.append(elem);
-//                 });
-//                 messages.scrollTop(scroll);
-//             }
-//         });
-//     }
-// }
 
 var checkNewMessages = function(){
     if(g_user){
@@ -196,27 +154,6 @@ var viewMessages = function(data, user, addOlder){
     $('#send').prop('user', user);
 }
 
-// var addMessage = function(user, message){
-//     $.post(document.location, {'addMessage': true, 'userLogin': user, 'message': message}, function(data){
-//             let messages = $('.user-messages');
-//             let elem=$("<div>",{
-//                 class: 'message',
-//             });
-//             elem.append($("<div>", {
-//                 class: 'message-content',
-//                 text: message
-//             }));
-//             elem.append($("<div>", {
-//                 class: 'user',
-//                 text: 'you'
-//             }));
-//             elem.css('margin-left', 'auto');
-//             messages.append(elem);
-//             messages.scrollTop(messages.prop('scrollHeight'));
-//             g_lastDate=data;
-//     });
-// }
-
 var addMessage = function(user, message){
     $.post(document.location, {'type': 'addMessage', 'userLogin': user, 'message': message}, function(data){
             let messages = $('.user-messages');
@@ -238,26 +175,12 @@ var addMessage = function(user, message){
     });
 }
 
-// var postMessages = function(user){
-//     $.post(document.location, {'getMessages20': true, 'userLogin': user, 'limit': 20}, function(data){
-//         g_user=user;
-//         viewMessages(data, user, false);
-//     });
-// }
-
 var postMessages = function(user){
     $.post(document.location, {'type': 'getMessages20', 'userLogin': user, 'limit': 20}, function(data){
         g_user=user;
         viewMessages(data, user, false);
     });
 }
-
-// var viewOlderMessages = function(user, lastDate){
-//     if(lastDate)
-//         $.post(document.location, {'getMessagesOlder': true, 'userLogin': user, 'date': lastDate, 'limit': 20}, function(data){
-//             viewMessages(data, user, true);
-//         });
-// }
 
 var viewOlderMessages = function(user, lastDate){
     if(lastDate)
@@ -288,31 +211,6 @@ var searchOut = function(search){
         $('#search-results').empty();
     }
 }
-
-// var searchSend = function(line){
-//     $.post(document.location, {'searchUser': true, 'userLogin': line}, function(data){
-//         data=JSON.parse(data);
-//         let search = $('#search-results');
-//         data.forEach(element => {
-//             let elem = $('<div>', {
-//                 class: 'contact',
-//                 text: element['login']
-//             });
-//             elem.click(function(handler){
-//                 if(g_contacts.indexOf(element['login'])===-1){
-//                     $.post(document.location, {'addUser': true, 'userLogin': element['login']}, function(data){
-//                         if(data==='success'){
-//                             getContacts();
-//                         }
-//                     });
-//                 }
-//                 $('#search').val('')
-//                             .focusout();
-//             });
-//             search.append(elem);
-//         });
-//     });
-// }
 
 var searchSend = function(line){
     $.post(document.location, {'type': 'searchUser', 'userLogin': line}, function(data){

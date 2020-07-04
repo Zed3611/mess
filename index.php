@@ -16,30 +16,7 @@ if($_POST['type'])
     $page=$_POST['type'];
 else if ($_POST['login'])
     $page='login';
-// else{
-//     if ($_POST['register'])
-//         $page='register';
-//     else if($_POST['login'])
-//         $page='login';
-//     else if ($_POST['logged'])
-//         $page='logged';
-//     else if ($_POST['getMessages20'])
-//         $page='getMessages20';
-//     else if ($_POST['getContacts'])
-//         $page='getContacts';
-//     else if ($_POST['addUser'])
-//         $page='addUser';
-//     else if ($_POST['getMessagesOlder'])
-//         $page='getMessagesOlder';
-//     else if ($_POST['addMessage'])
-//         $page='addMessage';
-//     else if ($_POST['checkNewMessages'])
-//         $page='checkNewMessages';
-//     else if ($_POST['searchUser'])
-//         $page='searchUser';
-//     else if ($_POST['yandexSearch'])
-//         $page='yandexSearch';
-// }
+
 try{
     switch($page){
         case 'register':
@@ -48,12 +25,9 @@ try{
         break;
 
         case 'yandexSearch':
-            //$result = file_get_contents('https://yandex.ru/search/?text='.$_POST['value']);
-            //$result = file_get_contents('html\\yandex.html');
             $html = file_get_html('https://yandex.ru/search/?text='.preg_replace('/ /', '+', $_POST['value']));
             $res='';
             $number=1;
-            //foreach($html->find('.organic.typo.typo_text_m.typo_line_s.i-bem') as $element){
             foreach($html->find('li.serp-item') as $element){
                 $a = $element->find('h2', 0)->find('a', 0);
                 $text = $element->find('.extended-text__full', 0)->plaintext;
@@ -64,25 +38,6 @@ try{
                 $number+=1;
                 $res.=$str;
             }
-            //preg_match_all('#<li>.*<a[^>]*tabindex[^>]*onclick[^>]*=[^>]*"[^>]*"[^>]*href="([^<>"]+)"[^>]*>(.+)</a>.*</li>#Ui',
-            //$result, $mas, PREG_SET_ORDER);
-            // preg_match_all('|<a class="link .*href=".*"|Ui',
-            // $result, $mas, PREG_SET_ORDER);
-            // preg_match('|<ul class="serp-list serp-list_left_yes" id=search-result.*</ul>|Ui',
-            // $result, $subject);
-            // preg_match_all('||Ui',
-            // $result, $subject, PREG_SET_ORDER);
-            // $res='';
-            // foreach($subject as $val){
-            //     $res=$res.$val[0];
-            // }
-            // preg_match('|Нам очень жаль, но запросы, поступившие с вашего IP-адреса, похожи на автоматические.|', $result, $match);
-            // if($match[0]){
-            //     //$send=preg_match('|<div class="captcha__image"><img src=".*"></div>|', $result, $match);
-            //     $send=preg_match('|<div class="captcha__image"><img src="[\w/\\.,?:]*"/></div>|ui', $result, $match);
-            //     echo json_encode(['captcha', $match]);
-            // }
-            // else
             echo $res;
         break;
 
@@ -112,7 +67,6 @@ try{
 
         case 'addMessage':
             if($_SESSION['userId']){
-                //$pdo->prepare("call addMessage('".$_POST['message']."', '".$_SESSION['login']."', '".$_POST['userLogin']."')")->execute();
                 $date = $pdo->query("call addMessage('".$_POST['message']."', '".$_SESSION['login']."', '".$_POST['userLogin']."')")->fetch();
                 echo $date['date'];
             }
@@ -122,10 +76,6 @@ try{
 
         case 'getContacts':
             if($_SESSION['userId']){
-                // $contacts=json_decode($pdo->query("select contacts from accounts where(userId=".$_SESSION['userId'].")")->fetch()['contacts']);
-                // $str=join(" or userId=", $contacts);
-                // $str='select userId, login from accounts where (userId='.$str.')';
-                // echo json_encode($pdo->query($str)->fetchAll());
                 echo $pdo->query("select contacts from accounts where(userId=".$_SESSION['userId'].")")->fetch()['contacts'];
             }
             else
