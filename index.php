@@ -1,7 +1,6 @@
 <?php
 
 require_once 'render_pages.php';
-require_once 'yandex_parse.php';
 require_once 'simple_html_dom.php';
 
 $pdo = new PDO('mysql:dbname=newschema;host=localhost;encoding=ut8mb4', 'root', '',  [
